@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import "../styles/videoComponent.css";
-import server from "..environment";
+import server from "../environment";
 
 
 
