@@ -30,7 +30,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import LandingPage from "./pages/landing";
 import Authentication from "./pages/authentication";
-import VideoMeetComponent from "./pages/Videomeet";
+import VideoMeetComponent from "./pages/videomeet";
 
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 
