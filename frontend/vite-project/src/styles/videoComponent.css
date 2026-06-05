@@ -1,0 +1,683 @@
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--video-bg: #09111f;
+	--video-bg-2: #101a2c;
+	--video-surface: rgba(12, 18, 30, 0.72);
+	--video-surface-2: rgba(18, 28, 46, 0.9);
+	--video-border: rgba(255, 255, 255, 0.09);
+	--video-text: #f5efe8;
+	--video-muted: rgba(245, 239, 232, 0.72);
+	--video-soft: rgba(245, 239, 232, 0.12);
+	--video-accent: chocolate;
+	--video-accent-2: #f29b4b;
+	--video-shadow: 0 24px 90px rgba(0, 0, 0, 0.42);
+	--video-radius: 24px;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	background:
+		radial-gradient(circle at top left, rgba(210, 105, 30, 0.22), transparent 32%),
+		radial-gradient(circle at top right, rgba(255, 166, 77, 0.12), transparent 28%),
+		linear-gradient(180deg, var(--video-bg) 0%, var(--video-bg-2) 100%);
+	color: var(--video-text);
+}
+
+.video-meet-page {
+	min-height: 100vh;
+	padding: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	overflow: hidden;
+}
+
+.video-meet-page::before,
+.video-meet-page::after {
+	content: "";
+	position: absolute;
+	border-radius: 999px;
+	filter: blur(24px);
+	pointer-events: none;
+}
+
+.video-meet-page::before {
+	width: 280px;
+	height: 280px;
+	top: -80px;
+	left: -100px;
+	background: rgba(210, 105, 30, 0.2);
+}
+
+.video-meet-page::after {
+	width: 360px;
+	height: 360px;
+	bottom: -160px;
+	right: -120px;
+	background: rgba(242, 155, 75, 0.18);
+}
+
+.video-meet-shell {
+	width: min(1180px, 100%);
+	position: relative;
+	z-index: 1;
+}
+
+.video-meet-shell--lobby {
+	display: grid;
+	gap: 20px;
+}
+
+.video-meet-shell--room {
+	display: grid;
+	gap: 20px;
+}
+
+.video-meet-hero,
+.video-meet-room-header {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	align-items: flex-end;
+	animation: fadeUp 0.55s ease both;
+}
+
+.video-meet-kicker {
+	margin: 0 0 10px;
+	color: rgba(242, 155, 75, 0.94);
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.video-meet-hero h2,
+.video-meet-room-header h2 {
+	margin: 0;
+	font-size: clamp(2rem, 4vw, 3.4rem);
+	line-height: 1.05;
+}
+
+.video-meet-subtitle {
+	margin: 10px 0 0;
+	color: var(--video-muted);
+	max-width: 60ch;
+	line-height: 1.6;
+}
+
+.video-meet-room-pill {
+	align-self: center;
+	padding: 10px 16px;
+	border-radius: 999px;
+	background: rgba(210, 105, 30, 0.16);
+	border: 1px solid rgba(210, 105, 30, 0.32);
+	color: #ffd9bd;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.video-meet-room-pill--soft {
+	background: rgba(255, 255, 255, 0.06);
+	border-color: rgba(255, 255, 255, 0.1);
+	color: var(--video-muted);
+}
+
+.video-meet-card {
+	background: linear-gradient(180deg, rgba(16, 26, 44, 0.88), rgba(10, 16, 29, 0.9));
+	border: 1px solid var(--video-border);
+	box-shadow: var(--video-shadow);
+	backdrop-filter: blur(22px);
+	border-radius: var(--video-radius);
+}
+
+.video-meet-form {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	padding: 18px;
+}
+
+.video-meet-lobby-actions {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+
+.video-meet-room-header-actions {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.video-meet-form input {
+	flex: 1;
+	min-width: 0;
+}
+
+.video-meet-form input,
+.video-meet-message-form input,
+.video-meet-input {
+	width: 100%;
+	min-width: 0;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: rgba(5, 10, 18, 0.65);
+	color: var(--video-text);
+	padding: 14px 16px;
+	border-radius: 16px;
+	outline: none;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.video-meet-form input::placeholder,
+.video-meet-message-form input::placeholder,
+.video-meet-input::placeholder {
+	color: rgba(245, 239, 232, 0.45);
+}
+
+.video-meet-form input:focus,
+.video-meet-message-form input:focus,
+.video-meet-input:focus {
+	border-color: rgba(210, 105, 30, 0.8);
+	box-shadow: 0 0 0 4px rgba(210, 105, 30, 0.18);
+	transform: translateY(-1px);
+}
+
+.video-meet-primary-btn,
+.video-meet-secondary-btn {
+	border: none;
+	min-height: 48px;
+	padding: 0 18px;
+	border-radius: 14px;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.video-meet-primary-btn {
+	background: linear-gradient(135deg, chocolate, #ee8f39);
+	color: #fff;
+	box-shadow: 0 14px 30px rgba(210, 105, 30, 0.28);
+}
+
+.video-meet-secondary-btn {
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--video-text);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.video-meet-primary-btn:hover,
+.video-meet-secondary-btn:hover {
+	transform: translateY(-1px);
+	filter: brightness(1.03);
+}
+
+.video-meet-primary-btn:disabled,
+.video-meet-secondary-btn:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+	transform: none;
+}
+
+.video-meet-grid,
+.video-meet-stage {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.video-meet-preview,
+.video-meet-checklist,
+.video-meet-video-panel,
+.video-meet-chat-panel {
+	padding: 18px;
+}
+
+.video-meet-shell--with-chat {
+	/* Do not add layout padding when chat drawer is open; chat overlays the UI */
+	padding-right: 0;
+}
+
+.video-meet-preview,
+.video-meet-video-panel {
+	display: grid;
+	gap: 14px;
+}
+
+.video-meet-card-title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	font-size: 14px;
+	color: var(--video-muted);
+}
+
+.video-meet-status-dot {
+	padding: 7px 11px;
+	border-radius: 999px;
+	background: rgba(46, 204, 113, 0.12);
+	border: 1px solid rgba(46, 204, 113, 0.18);
+	color: #b6f7ca;
+	font-weight: 700;
+	font-size: 12px;
+}
+
+.video-meet-status-dot--muted {
+	background: rgba(255, 255, 255, 0.06);
+	border-color: rgba(255, 255, 255, 0.1);
+	color: var(--video-muted);
+}
+
+.video-meet-video {
+	width: 100%;
+	aspect-ratio: 16 / 10;
+	border-radius: 20px;
+	object-fit: cover;
+	background:
+		radial-gradient(circle at center, rgba(210, 105, 30, 0.14), transparent 45%),
+		#060b13;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.video-meet-video--remote {
+	min-height: 280px;
+}
+
+.video-meet-checklist {
+	display: grid;
+	gap: 14px;
+	align-content: start;
+}
+
+.video-meet-field {
+	display: grid;
+	gap: 8px;
+	color: var(--video-muted);
+	font-size: 13px;
+}
+
+.video-meet-select {
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: rgba(5, 10, 18, 0.65);
+	color: var(--video-text);
+	padding: 12px 14px;
+	border-radius: 14px;
+	outline: none;
+}
+
+.video-meet-checklist h3,
+.video-meet-chat-panel h3 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+.video-meet-checklist-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 16px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.video-meet-ok {
+	color: #ffd3b6;
+}
+
+.video-meet-muted {
+	color: rgba(245, 239, 232, 0.55);
+}
+
+.video-meet-error {
+	margin: 0;
+	color: #ff8d76;
+	line-height: 1.5;
+}
+
+.video-meet-hint {
+	margin: 0;
+	color: var(--video-muted);
+	line-height: 1.6;
+}
+
+.video-meet-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.video-meet-room-header-actions .video-meet-secondary-btn {
+	min-height: 40px;
+	padding: 8px 12px;
+}
+
+.video-meet-control-group {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.video-meet-message-form {
+	flex: 1;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	position: relative;
+}
+
+.video-meet-message-form .video-meet-input {
+	flex: 1;
+}
+
+.video-meet-chat-panel {
+	display: grid;
+	gap: 16px;
+}
+
+.video-meet-chat-drawer {
+	position: fixed;
+	top: 24px;
+	right: 24px;
+	bottom: 24px;
+	width: min(360px, calc(100vw - 32px));
+	padding: 18px;
+	background: linear-gradient(180deg, rgba(15, 24, 39, 0.96), rgba(8, 12, 20, 0.98));
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(24px);
+	border-radius: 22px;
+	display: grid;
+	grid-template-rows: auto 1fr auto auto;
+	gap: 14px;
+	transform: translateX(110%);
+	opacity: 0;
+	pointer-events: none;
+	transition: transform 0.28s ease, opacity 0.28s ease;
+	z-index: 20;
+}
+
+.video-meet-chat-drawer--open {
+	transform: translateX(0);
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.video-meet-chat-drawer-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+
+.video-meet-chat-drawer-top h3 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.video-meet-chat-close,
+.video-meet-chat-toggle,
+.video-meet-emoji-trigger,
+.video-meet-emoji-btn,
+.video-meet-emoji-popup-btn {
+	border: none;
+	cursor: pointer;
+	transition: transform 0.18s ease, background-color 0.18s ease, opacity 0.18s ease;
+}
+
+.video-meet-chat-close {
+	width: 40px;
+	height: 40px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--video-text);
+	font-size: 24px;
+	line-height: 1;
+}
+
+.video-meet-chat-toggle {
+	min-height: 46px;
+	padding: 0 16px;
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--video-text);
+	font-weight: 700;
+}
+
+.video-meet-chat-close:hover,
+.video-meet-chat-toggle:hover,
+.video-meet-emoji-trigger:hover,
+.video-meet-emoji-btn:hover,
+.video-meet-emoji-popup-btn:hover {
+	transform: translateY(-1px);
+}
+
+.video-meet-emoji-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 10px 0 2px;
+}
+
+.video-meet-emoji-btn {
+	width: 40px;
+	height: 40px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	font-size: 18px;
+}
+
+.video-meet-chat-form {
+	display: grid;
+	grid-template-columns: auto auto 1fr auto;
+	gap: 10px;
+	align-items: center;
+	position: relative;
+}
+
+.video-meet-emoji-trigger {
+	width: 46px;
+	height: 46px;
+	border-radius: 14px;
+	background: rgba(210, 105, 30, 0.16);
+	color: #ffd9bd;
+	font-size: 18px;
+}
+
+.video-meet-emoji-popup {
+	position: absolute;
+	left: 0;
+	bottom: calc(100% + 10px);
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 8px;
+	padding: 12px;
+	background: rgba(12, 18, 30, 0.98);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 18px;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+	width: min(260px, 100%);
+	backdrop-filter: blur(20px);
+	z-index: 2;
+}
+
+.video-meet-emoji-popup-btn {
+	height: 40px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	font-size: 18px;
+}
+
+.video-meet-chat-form .video-meet-input {
+	min-width: 0;
+}
+
+.video-meet-chat-list {
+	display: grid;
+	gap: 12px;
+	max-height: 280px;
+	overflow: auto;
+	padding-right: 4px;
+}
+
+.video-meet-chat-item {
+	padding: 14px 16px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.video-meet-chat-item strong {
+	display: block;
+	margin-bottom: 8px;
+	color: #ffd9bd;
+}
+
+.video-meet-chat-item p {
+	margin: 0;
+	color: var(--video-text);
+	line-height: 1.55;
+}
+
+.video-meet-chat-list::-webkit-scrollbar {
+	width: 8px;
+}
+
+.video-meet-chat-list::-webkit-scrollbar-thumb {
+	background: rgba(210, 105, 30, 0.38);
+	border-radius: 999px;
+}
+
+.video-meet-chat-list::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 960px) {
+	.video-meet-page {
+		padding: 20px;
+		align-items: flex-start;
+	}
+
+	.video-meet-hero,
+	.video-meet-room-header,
+	.video-meet-controls {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.video-meet-grid,
+	.video-meet-stage {
+		grid-template-columns: 1fr;
+	}
+
+	.video-meet-form,
+	.video-meet-message-form {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.video-meet-lobby-actions,
+	.video-meet-room-header-actions {
+		width: 100%;
+	}
+
+	.video-meet-primary-btn,
+	.video-meet-secondary-btn {
+		width: 100%;
+	}
+
+	.video-meet-shell--with-chat {
+		padding-right: 0;
+	}
+
+	.video-meet-chat-drawer {
+		top: auto;
+		left: 16px;
+		right: 16px;
+		bottom: 16px;
+		width: auto;
+		height: min(72vh, 560px);
+	}
+}
+
+@media (max-width: 640px) {
+	.video-meet-page {
+		padding: 16px;
+	}
+
+	.video-meet-form,
+	.video-meet-preview,
+	.video-meet-checklist,
+	.video-meet-video-panel,
+	.video-meet-chat-panel {
+		padding: 16px;
+	}
+
+	.video-meet-hero h2,
+	.video-meet-room-header h2 {
+		font-size: 2rem;
+	}
+
+	.video-meet-video {
+		aspect-ratio: 16 / 11;
+	}
+
+	.video-meet-form {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.video-meet-form button {
+		width: 100%;
+	}
+
+	.video-meet-room-header-actions {
+		width: 100%;
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+	}
+
+	.video-meet-chat-form {
+		grid-template-columns: auto 1fr auto;
+	}
+
+	.video-meet-chat-form .video-meet-emoji-popup {
+		left: 0;
+		right: 0;
+		width: auto;
+	}
+}
