@@ -11,10 +11,13 @@ import messageRouter from "./routers/message_routes.js";
 const app = express();
 const server= createServer(app);
 const io = connectToSocket(server);
-
+MONGO_URI:"mongodb://127.0.0.1:27017/vidcall";
 
 const PORT = Number(process.env.PORT) || 8000;
+
+
 const MONGO_URI = process.env.MONGO_URI;
+//MONGO_URI:"mongodb://127.0.0.1:27017/vidcall";
 
 console.log("MONGO_URI exists:", !!MONGO_URI);
 
