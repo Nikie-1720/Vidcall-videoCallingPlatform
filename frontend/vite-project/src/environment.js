@@ -8,4 +8,4 @@ const server = IS_PROD?
     
 
 
-export default servers;
+export default server;
