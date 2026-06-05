@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import "../styles/videoComponent.css";
-
+import server from "..environment";
 
 
 
@@ -467,7 +467,7 @@ export default function VideoMeetComponent() {
             }
 
             if (!socketRef.current) {
-                socketRef.current = io("http://localhost:8000", {
+                socketRef.current = io(`{server}`, {
                     transports: ["websocket"],
                 });
                 console.debug("Socket created (client)");
@@ -484,7 +484,7 @@ export default function VideoMeetComponent() {
             // fetch persisted history via API (in case server replay missed anything)
             (async () => {
                 try {
-                    const resp = await fetch(`http://localhost:8000/api/v1/messages/${encodeURIComponent(location.pathname)}`);
+                    const resp = await fetch(`${server}/api/v1/messages/${encodeURIComponent(location.pathname)}`);
                     if (resp.ok) {
                         const body = await resp.json();
                         if (body && body.messages) {
