@@ -31,13 +31,15 @@ app.use(express.json({limit:"40kb"}));
 app.use(express.urlencoded({limit:"40kb", extended:true}));
 app.use("/api/v1/users", router);
 app.use("/api/v1/messages", messageRouter);
-
-
+app.get("/", (req, res) => {
+    console.log("route hit");
+  res.send("Backend Running Successfully");
+});
 
 
 const start = async () => {
     try {
-        app.set( "Nikita");
+        
         if (!MONGO_URI) {
     throw new Error("MONGO_URI environment variable is missing");
 }
@@ -63,6 +65,7 @@ const connectionDB = await mongoose.connect(MONGO_URI);
         process.exit(1);
     }
 };
+
 
 
 
