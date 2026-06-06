@@ -1,34 +1,26 @@
-
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext, client } from "./authContext";
+import { AuthContext, client } from "./authContext.js";
 
 export const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-
     const navigate = useNavigate();
 
-    const handleRegister = async (name, username, password) => {
+    const handleRegister = useCallback(async (name, username, password) => {
         try {
             const request = await client.post("/register", {
                 name,
                 username,
                 password,
             });
-
-            if (request.status === 201) {
-                return request.data.message;
-            }
-
-            // return server message if present
             return request.data?.message;
         } catch (err) {
             console.error("Registration Error:", err);
             throw err;
         }
-    };
+    }, []);
 
-    const handleLogin = async (username, password) => {
+    const handleLogin = useCallback(async (username, password) => {
         try {
             const request = await client.post("/login", {
                 username,
@@ -47,17 +39,12 @@ export const AuthProvider = ({ children }) => {
             console.error("Login Error:", err);
             throw err;
         }
-    };
+    }, [navigate]);
 
-    const data = {
-        userData,
-        setUserData,
-        handleRegister,
-        handleLogin,
-    };
+   
 
     return (
-        <AuthContext.Provider value={data}>
+        <AuthContext.Provider value={{userData, setUserData, handleRegister, handleLogin} }>
             {children}
         </AuthContext.Provider>
     );

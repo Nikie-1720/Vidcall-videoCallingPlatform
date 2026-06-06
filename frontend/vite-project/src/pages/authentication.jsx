@@ -1,6 +1,7 @@
 
 import React, { useContext } from "react";
-import { AuthContext } from "../contexts/authContext";
+import { useLocation } from "react-router-dom";
+import { AuthContext } from "../contexts/authContext.js";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
@@ -275,9 +276,8 @@ function Field({ label, icon, type, placeholder, value, onChange, error, showTog
 }
 
 export default function Authentication() {
-  
-
-  const [mode, setMode] = React.useState("login");
+  const location = useLocation();
+  const [mode, setMode] = React.useState(location.state?.mode === "register" ? "register" : "login");
   const [form, setForm] = React.useState({ name: "", username: "", password: "" });
   const [errors, setErrors] = React.useState({});
   const [showPass, setShowPass] = React.useState(false);
