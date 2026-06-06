@@ -62,6 +62,11 @@ function App() {
                         />
 
                     </Routes>
+
+                    <Routes>
+    <Route path="/" element={<LandingPage />} />
+    <Route path="/auth" element={<Auth />} />
+</Routes>
                 </AuthProvider>
             </Router>
         </div>

@@ -9,7 +9,7 @@ import connectToSocket from "./controllers/socketManager.js";
 import mongoose from "mongoose";
 import {router} from "./routers/user_routes.js";
 import messageRouter from "./routers/message_routes.js";
-
+import Authentication from "./pages/Auth";
 const app = express();
 const server= createServer(app);
 const io = connectToSocket(server);
@@ -31,6 +31,12 @@ app.use(express.json({limit:"40kb"}));
 app.use(express.urlencoded({limit:"40kb", extended:true}));
 app.use("/api/v1/users", router);
 app.use("/api/v1/messages", messageRouter);
+import Auth from "./pages/Auth";
+
+<Routes>
+    <Route path="/" element={<LandingPage />} />
+    <Route path="/auth" element={<Auth />} />
+</Routes>
 
 const start = async () => {
     try {
