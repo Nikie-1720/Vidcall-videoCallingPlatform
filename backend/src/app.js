@@ -33,10 +33,7 @@ app.use("/api/v1/users", router);
 app.use("/api/v1/messages", messageRouter);
 import Auth from "./pages/Auth";
 
-<Routes>
-    <Route path="/" element={<LandingPage />} />
-    <Route path="/auth" element={<Auth />} />
-</Routes>
+
 
 const start = async () => {
     try {
