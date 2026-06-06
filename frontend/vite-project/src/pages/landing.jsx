@@ -20,7 +20,7 @@ export default function LandingPage(){
                 <div className="Text">
                     <div><h1><span style={{ color: 'chocolate' }}>Connect</span> to VidCall</h1>
                     <p>Connect with your loved ones anytime, anywhere.</p></div>
-                    <div><a href="/home" ><button className="getstarted">Get Started</button></a></div>
+                    <div><a href="/auth" ><button className="getstarted">Get Started</button></a></div>
                 </div>
                 
                 <div className="Image-container">
